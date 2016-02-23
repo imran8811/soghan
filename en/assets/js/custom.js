@@ -315,7 +315,7 @@ $(document).ready(function(){
                 });
         });
     });
-
+///hhhh
 //    $('.jash').click(function(e) {
     $('.profile-form .btn-submit').click(function(e) {
         var obj = $(this);
