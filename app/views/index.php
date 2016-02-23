@@ -29,6 +29,7 @@
     <div class="market-data">
         <img src="<?php echo base_url().'assets/images/loader.gif'; ?>" class="mkt-loader" />
     </div>
+<!--    // boxes start-->
     <div class="boxes">
         <?php $limit =  0;
         for($i=0; $i<12; $i++){
