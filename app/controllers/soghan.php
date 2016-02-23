@@ -18,7 +18,7 @@ class Soghan extends CI_Controller {
         
         $result['youtube'] = json_decode(file_get_contents($GLOBALS['video_link'].'&maxResults=3&order=date'));
        
-        $data['title'] = 'Home - Soghan.ae';
+        $data['title'] = 'البيت - صوغان';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';        
         
         $result['countries'] = $this->soghan_model->getMaidanCountries(); 
@@ -43,7 +43,7 @@ class Soghan extends CI_Controller {
     public function login_check() {
 
         if ($this->session->userdata('user_id') == '' && $this->session->userdata('username') == '') {
-            $this->session->set_userdata('error', 'You are not Logged In, Please Login First !');
+            $this->session->set_userdata('error', 'أنت لم تسجل الدخول، الرجاء تسجيل الدخول أولا!');
             redirect('login');
         }
     }
@@ -71,7 +71,7 @@ class Soghan extends CI_Controller {
                 $this->session->unset_userdata('ad_id');
             }           
             
-            $data['title']  = 'Login - Soghan.ae';
+            $data['title']  = 'تسجيل الدخول - صوغان';
             $data['slider'] = base_url().'assets/images/img1.jpg';
             
             $this->load->view('includes/header', $data);
@@ -125,7 +125,7 @@ class Soghan extends CI_Controller {
         if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             $this->check_already_loggedin();
             
-            $data['title']  = 'Register - Soghan.ae';
+            $data['title']  = 'تسجيل - صوغان';
             $data['slider'] = base_url().'assets/images/img1.jpg';
             
             $result['countries'] = $this->soghan_model->getAllCountries();
@@ -134,7 +134,7 @@ class Soghan extends CI_Controller {
             $this->load->view('signup', $result);
             $this->load->view('includes/footer');            
         }
-        else{            
+        else{
             $this->form_validation->set_rules('firstname', 'First Name', 'trim|required');
             $this->form_validation->set_rules('familyname', 'Family Name', 'trim|required');
             if($this->session->userdata('user_id')==FALSE){
@@ -143,8 +143,8 @@ class Soghan extends CI_Controller {
                 $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]');
             }
             $this->form_validation->set_rules('mobilenumber', 'Mobile', 'trim|required');
-            $this->form_validation->set_rules('country', 'Country', 'trim|required');
-            $this->form_validation->set_rules('city', 'City', 'trim|required');
+//            $this->form_validation->set_rules('country', 'Country', 'trim|required');
+//            $this->form_validation->set_rules('city', 'City', 'trim|required');
 
             if ($this->form_validation->run() == FALSE) {
 //                $a = str_replace('<p>', '', validation_errors());
@@ -154,20 +154,20 @@ class Soghan extends CI_Controller {
                 echo json_encode($a); exit;
             }
             
-            $country = $this->soghan_model->getCountryByCity($_POST['city']);
+//            $country = $this->soghan_model->getCountryByCity($_POST['city']);
             
             if($this->session->userdata('user_id')==TRUE){
                 $user_data = array(
                     'first_name'    => $this->input->get_post('firstname'),
                     'middle_name'   => $this->input->get_post('middlename'),
                     'family_name'   => $this->input->get_post('familyname'),
-                    'mobile'        => $this->input->get_post('mobilenumber'),
-                    'country_name'  => $country->country_name,
-                    'city_name'     => $country->city_name
+                    'mobile'        => $this->input->get_post('mobilenumber')
+//                    'country_name'  => $country->country_name,
+//                    'city_name'     => $country->city_name
                 );
                 $res = $this->soghan_model->updateRecord('users', 'user_id', $this->session->userdata('user_id'), $user_data);
                 if($res){
-                    echo 'Succesfully Updated!';
+                    echo 'Successfully Updated!';
                 }else{
                     echo 'No changes occurred!';
                 }
@@ -184,9 +184,9 @@ class Soghan extends CI_Controller {
                         'family_name'  => $this->input->get_post('familyname'),
                         'email'        => $this->input->get_post('email'),
                         'password'     => $this->input->get_post('password'),
-                        'mobile'       => $this->input->get_post('mobilenumber'),
-                        'country_name' => $country->country_name,
-                        'city_name'    => $country->city_name
+                        'mobile'       => $this->input->get_post('mobilenumber')
+//                        'country_name' => $country->country_name,
+//                        'city_name'    => $country->city_name
                     );
                     
                     $res = $this->soghan_model->saveRecord('users', $user_data);            
@@ -211,7 +211,7 @@ class Soghan extends CI_Controller {
         
         $this->login_check();
         
-        $data['title']  = 'View Profile - Soghan.ae';
+        $data['title']  = 'مشاهدة الملف الشخصي - صوغان';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';
         
         $result['countries'] = $this->soghan_model->getAllCountries();
@@ -229,7 +229,7 @@ class Soghan extends CI_Controller {
         
         $this->login_check();
         
-        $data['title']  = 'Change Password - Soghan.ae';
+        $data['title']  = 'تغيير كلمة السر - صوغان';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';
         
         $user = $this->soghan_model->checkRecord('users', array('user_id' => $this->session->userdata('user_id')));
@@ -259,7 +259,7 @@ class Soghan extends CI_Controller {
         
         if ($this->form_validation->run() == FALSE)
         {
-            $data['title'] = 'Change Password - Soghan.ae';
+            $data['title'] = 'تغيير كلمة السر - صوغان';
             $data['slider'] = base_url() . 'assets/images/img1.jpg';
             
             $this->load->view('includes/header', $data);
@@ -268,17 +268,17 @@ class Soghan extends CI_Controller {
         }
         else{            
             if($this->session->userdata('password') != $_POST['current_password']){
-                $this->session->set_userdata('msg', "Current Password doesn't matched!");
+                $this->session->set_userdata('msg', "كلمة السر الحالية لا تتطابق!");
                 redirect('change_password');
             }
             $result = $this->soghan_model->updateRecord('users', 'user_id', $this->session->userdata('user_id'), array('password' => $_POST['new_password']));
             if($result != 0){
                 $this->session->unset_userdata('user_id');
                 $this->session->unset_userdata('username');
-                $this->session->set_userdata('msg', 'Password Successfully Changed, Please Login!'); 
+                $this->session->set_userdata('msg', 'تغيير كلمة المرور بنجاح، يرجى تسجيل الدخول!');
                 redirect('login');
             }else{
-                $this->session->set_userdata('msg', 'Password could not be Changed !');
+                $this->session->set_userdata('msg', 'كلمة سر لا يمكن تغيير!');
                 redirect('change_password');
             }
         }
@@ -288,7 +288,7 @@ class Soghan extends CI_Controller {
         
         if(!isset($_POST['forgot']) && empty($this->input->get_post('status'))){
                         
-            $data['title'] = 'Forgot Password - Soghan.ae';
+            $data['title'] = 'هل نسيت كلمة المرور - صوغان';
             $data['slider'] = base_url() . 'assets/images/img1.jpg';
             
             $this->load->view('includes/header', $data);
@@ -307,7 +307,7 @@ class Soghan extends CI_Controller {
                         echo json_encode($result);
                     }
                     else{
-                        $this->session->set_userdata('msg', 'Account not verified !');
+                        $this->session->set_userdata('msg', 'حساب لم يتم التحقق!');
                         redirect('forgot');
                     }
                 }
@@ -326,7 +326,7 @@ class Soghan extends CI_Controller {
                         echo json_encode($result);
                     }
                     else{
-                        $this->session->set_userdata('msg', 'Email has been sent, Please check your email !');
+                        $this->session->set_userdata('msg', 'تم ارسال البريد الإلكتروني، يرجى التحقق من البريد الإلكتروني الخاص بك!');
                         redirect('forgot');
                     }
                 }
@@ -339,7 +339,7 @@ class Soghan extends CI_Controller {
                     echo json_encode($result);
                 }
                 else{
-                    $this->session->set_userdata('msg', 'Email not found !');
+                    $this->session->set_userdata('msg', 'البريد الإلكتروني غير موجود!');
                     redirect('forgot');
                 } 
             }
@@ -347,7 +347,7 @@ class Soghan extends CI_Controller {
     }
     
     public function reset_password(){
-        $data['title'] = 'Reset Password - Soghan.ae';
+        $data['title'] = 'اعادة تعيين كلمة السر - صوغان';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';
         
         if(!isset($_POST['reset'])){
@@ -378,15 +378,15 @@ class Soghan extends CI_Controller {
                     $result = $this->soghan_model->updateRecord('users', 'email', $this->session->userdata('email'), array('password' => $_POST['password']));                
                     if ($result) {
                         $this->session->unset_userdata('email');
-                        $this->session->set_userdata('msg', 'Password Successfully Reset, Please Login!');
+                        $this->session->set_userdata('msg', 'إعادة تعيين كلمة المرور بنجاح، يرجى تسجيل الدخول!');
                         redirect('login');
                     } else {
-                        $this->session->set_userdata('msg', 'Some Error Occurred !');
+                        $this->session->set_userdata('msg', 'بعض خطأ حدث!');
                         redirect('reset');
                     }
                 }
                 else{
-                    $this->session->set_userdata('msg', 'Invalid !');
+                    $this->session->set_userdata('msg', 'غير صالحة !');
                     redirect('reset');
                 }
             }
@@ -502,10 +502,10 @@ class Soghan extends CI_Controller {
     public function search_cities_by_country(){
         
         $result['cities'] = $this->soghan_model->getSearchCitiesByCountry($_POST['c']);
-        
-        // echo '<pre>'; print_r($result['cities']); die;
-        
-        return $this->load->view('partials/search_cities', $result);
+
+        if($result['cities']){
+            return $this->load->view('partials/search_cities', $result);
+        }
     }
     
     public function get_cities_by_country_home(){
@@ -530,8 +530,8 @@ class Soghan extends CI_Controller {
     
     public function get_maidan_by_city(){
         
+        $result['maidans'] = $this->soghan_model->getMaidans('city_id', $_POST['c']);
         if(!empty($_POST['c'])){
-            $result['maidans'] = $this->soghan_model->getMaidans('city_id', $_POST['c']);
             return $this->load->view('partials/maidans', $result);
         }
         else{
@@ -559,7 +559,6 @@ class Soghan extends CI_Controller {
         }else{
             return '0';
         }
-        
     }
     
     public function get_genders_by_subcat(){
@@ -580,7 +579,7 @@ class Soghan extends CI_Controller {
     
     public function vendors_list(){
         
-        $data['title'] = 'Vendors - Soghan.ae';
+        $data['title'] = 'دليل المظمر - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         
         $result['vendors'] = $this->soghan_model->getVendors();
@@ -626,7 +625,7 @@ class Soghan extends CI_Controller {
         
         $id = end($this->uri->segments);
         
-        $data['title'] = 'Vendor Detail - Soghan.ae';
+        $data['title'] = 'دليل المظمر - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         
         $result['detail'] = $this->soghan_model->getVendorsList(array('vendor_detail_id' => $id));
@@ -638,7 +637,7 @@ class Soghan extends CI_Controller {
     
     public function market_places(){
                 
-        $data['title'] = 'Vendors - Soghan.ae';
+        $data['title'] = 'دليل المظمر - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         
         $total = $this->soghan_model->getPosts();
@@ -684,7 +683,7 @@ class Soghan extends CI_Controller {
     
     public function ad_detail($id){
         
-        $data['title']  = 'Market Place Details - Soghan.ae';
+        $data['title']  = 'السوق - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         
         $result['detail'] = $this->soghan_model->getPostDetail($id); 
@@ -778,7 +777,7 @@ class Soghan extends CI_Controller {
         // echo '<pre>'; print_r($result['posts']); die;
         
         if($this->uri->segment(1) == 'quick_search'){
-            $data['title'] = 'Quick Search - Soghan.ae';
+            $data['title'] = 'Quick Search - صوغان';
             $data['slider'] = base_url() . 'assets/images/img8.jpg';
             
             $result['cats']  = $this->soghan_model->getAllCategories();
@@ -831,7 +830,7 @@ class Soghan extends CI_Controller {
         
         $result['data'] = $this->soghan_model->getLinks($per_pg, $offset);
         
-        $data['title'] = 'Related Links - Soghan.ae';
+        $data['title'] = 'الروابط - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
 
         $this->load->view('includes/header', $data);
@@ -841,7 +840,7 @@ class Soghan extends CI_Controller {
     
     public function get_link_detail($id){
         
-        $data['title'] = 'Link Details- Soghan.ae';
+        $data['title'] = 'Link Details- صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         $result['detail'] = $this->soghan_model->getLinkDetail($id);
         
@@ -852,9 +851,9 @@ class Soghan extends CI_Controller {
     
     public function calendar(){
         
-        $data['title'] = 'Calendar- Soghan.ae';
+        $data['title'] = 'التقويم- صوغان';
         $events = $this->soghan_model->getEvents();
-        $data['events'] = $this->soghan_model->getEvents(date('Y-m-d'), '1');
+        $data['events'] = $this->soghan_model->getEvents(date('Y-m-d'), '1', 'arabic_');
         $data['date'] = date('Y-m-d');        
         $result['date'] = date('Y-m-d');        
         
@@ -877,28 +876,22 @@ class Soghan extends CI_Controller {
         $this->load->view('includes/footer', $result);
     }
     
-    public function get_events(){       
-        
+    public function get_events(){
+
         // header('Content-Type: text/html; charset=utf-8');
-        // $standard = array("0","1","2","3","4","5","6","7","8","9");
-        // $eastern_arabic_symbols = array("٠","١","٢","٣","٤","٥","٦","٧","٨","٩");
-        // $current_date = date('d', strtotime($_POST['date'])).'-'.date('m', strtotime($_POST['date'])).'-'.date('Y', strtotime($_POST['date']));
-        // $arabic_date = str_replace($eastern_arabic_symbols, $standard , $current_date);
-//         
-        // foreach($standard as $key => $st){
-            // $new_date = str_replace($eastern_arabic_symbols[$key], $st, $_POST['date']);            
-        // }
-//         
-        // die($new_date);
+         $standard = array("0","1","2","3","4","5","6","7","8","9");
+         $eastern_arabic_symbols = array("٠","١","٢","٣","٤","٥","٦","٧","٨","٩");
+//         $current_date = date('d', strtotime($_POST['date'])).'-'.date('m', strtotime($_POST['date'])).'-'.date('Y', strtotime($_POST['date']));
+         $eng_date = str_replace($eastern_arabic_symbols, $standard, $_POST['date']);
         
-        $result['events'] = $this->soghan_model->getEvents($_POST['date'], $_POST['s']);
-        $result['date'] = $_POST['date'];
+        $result['events'] = $this->soghan_model->getEvents($eng_date, $_POST['s'], 'arabic_');
+        $result['date'] = $eng_date;
         return $this->load->view('partials/events', $result);
     }
     
     public function event_detail($id){
         
-        $data['title'] = 'Race Info - Soghan.ae';
+        $data['title'] = 'المراكيض - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         
         $result['event'] = $this->soghan_model->getEventDetail($id);   
@@ -914,7 +907,7 @@ class Soghan extends CI_Controller {
         $this->session->unset_userdata('maidan');
         $this->session->unset_userdata('date');
         
-        $data['title'] = 'Race Info - Soghan.ae';
+        $data['title'] = 'المراكيض - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         $result['countries'] = $this->soghan_model->getMaidanCountries();        
         $result['youtube']  = json_decode(file_get_contents($GLOBALS['video_link'].'&maxResults=20&order=date'));
@@ -927,7 +920,7 @@ class Soghan extends CI_Controller {
     
     public function watch_video($id){
         
-        $data['title'] = 'Race Info - Soghan.ae';
+        $data['title'] = 'المراكيض - صوغان';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         $result['youtube']  = json_decode(file_get_contents($GLOBALS['video_link'].'&videoId='.$id.'&maxResults=1&order=date'));
         
@@ -971,15 +964,24 @@ class Soghan extends CI_Controller {
         }   
         
         $result['youtube'] = json_decode(file_get_contents($GLOBALS['video_link'].'&maxResults=20&order=date&q='.$this->session->userdata('date').$a));
-                
+
         $this->session->set_userdata('nextPage', $result['youtube']->nextPageToken);
         return $this->load->view('partials/videos_list', $result);
     }
 
     public function news(){
-        $this->load->view("includes/header");
+        $data['title'] = 'الاخبار - صوغان';
+        $this->load->view("includes/header", $data);
         $this->load->view("news");
         $this->load->view("includes/footer");
+    }
+
+    function getAllSubCategories()
+    {
+        // $this->db->select(', arabic_country_name');
+        $this->db->order_by('arabic_sub_cat_name', 'ASC');
+        $query = $this->db->get('sub_categories');
+        return $query->result_array();
     }
     
   

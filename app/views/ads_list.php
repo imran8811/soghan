@@ -20,7 +20,7 @@
             </a>
             <?php } ?>
         </div>
-        <?php } else{ echo '?? ???? ?????'; } ?>
+        <?php } else{ echo 'لا يوجد سجلات'; } ?>
         <?php echo $links; ?>
         </div>
     </div>

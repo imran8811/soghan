@@ -2,7 +2,7 @@
 class Soghan extends CI_Controller {    
 
     public function __construct() {
-
+        
         parent::__construct();
 
         $this->load->model('soghan_model');
@@ -19,14 +19,14 @@ class Soghan extends CI_Controller {
         $result['youtube'] = json_decode(file_get_contents($GLOBALS['video_link'].'&maxResults=3&order=date'));
        
         $data['title'] = 'Home - Soghan.ae';
-        $data['slider'] = base_url() . 'assets/images/img1.jpg';
+        $data['slider'] = base_url() . 'assets/images/img1.jpg';        
         
-        $result['countries'] = $this->soghan_model->getMaidanCountries();
+        $result['countries'] = $this->soghan_model->getMaidanCountries(); 
         $result['posts']   = $this->soghan_model->getPosts(0, 36);
-        $result['vendors'] = $this->soghan_model->getVendors('', 'english_');
+        $result['vendors'] = $this->soghan_model->getVendors();
         $result['cats']    = $this->soghan_model->getAllCategories();
         $result['sub_cats'] = $this->soghan_model->getAllSubCategories();
-
+        
         $this->load->view('includes/header', $data);
         $this->load->view('index', $result);
         $this->load->view('includes/footer-home');
@@ -120,7 +120,7 @@ class Soghan extends CI_Controller {
       redirect('/');
     }
     
-    public function user_register() { die('here');
+    public function user_register() {
         
         if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             $this->check_already_loggedin();
@@ -143,8 +143,8 @@ class Soghan extends CI_Controller {
                 $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]');
             }
             $this->form_validation->set_rules('mobilenumber', 'Mobile', 'trim|required');
-//            $this->form_validation->set_rules('country', 'Country', 'trim|required');
-//            $this->form_validation->set_rules('city', 'City', 'trim|required');
+            $this->form_validation->set_rules('country', 'Country', 'trim|required');
+            $this->form_validation->set_rules('city', 'City', 'trim|required');
 
             if ($this->form_validation->run() == FALSE) {
 //                $a = str_replace('<p>', '', validation_errors());
@@ -160,9 +160,10 @@ class Soghan extends CI_Controller {
                 $user_data = array(
                     'first_name'    => $this->input->get_post('firstname'),
                     'middle_name'   => $this->input->get_post('lastname'),
-                    'mobile'        => $this->input->get_post('mobilenumber')
-//                    'country_name'  => $country->country_name,
-//                    'city_name'     => $country->city_name
+                    'family_name'   => $this->input->get_post('familyname'),
+                    'mobile'        => $this->input->get_post('mobilenumber'),
+                    'country_name'  => $country->country_name,
+                    'city_name'     => $country->city_name
                 );
                 $res = $this->soghan_model->updateRecord('users', 'user_id', $this->session->userdata('user_id'), $user_data);
                 if($res){
@@ -179,12 +180,13 @@ class Soghan extends CI_Controller {
                 else{
                     $user_data = array(
                         'first_name'   => $this->input->get_post('firstname'),
-                        'middle_name'  => $this->input->get_post('lastname'),
+                        'middle_name'  => $this->input->get_post('middlename'),
+                        'family_name'  => $this->input->get_post('familyname'),
                         'email'        => $this->input->get_post('email'),
                         'password'     => $this->input->get_post('password'),
-                        'mobile'       => $this->input->get_post('mobilenumber')
-//                        'country_name' => $country->country_name,
-//                        'city_name'    => $country->city_name
+                        'mobile'       => $this->input->get_post('mobilenumber'),
+                        'country_name' => $country->country_name,
+                        'city_name'    => $country->city_name
                     );
                     
                     $res = $this->soghan_model->saveRecord('users', $user_data);            
@@ -463,7 +465,7 @@ class Soghan extends CI_Controller {
     
     public function get_vendors(){
         
-        $result['vendors'] = $this->soghan_model->getVendors('', 'english_');
+        $result['vendors'] = $this->soghan_model->getVendors();
         $this->load->view('includes/header');
         $this->load->view('posts', $result);
         $this->load->view('includes/footer');        
@@ -496,29 +498,49 @@ class Soghan extends CI_Controller {
             return $this->load->view('partials/default_cities', $result);
         }
     }
-
+    
     public function search_cities_by_country(){
-
+        
         $result['cities'] = $this->soghan_model->getSearchCitiesByCountry($_POST['c']);
-
-        if($result['cities']){
-            return $this->load->view('partials/search_cities', $result);
+        
+        // echo '<pre>'; print_r($result['cities']); die;
+        
+        return $this->load->view('partials/search_cities', $result);
+    }
+    
+    public function get_cities_by_country_home(){
+        
+        $result['cities'] = $this->soghan_model->getCitiesByCountry($_POST['c'], $_POST['s']);
+        if(!empty($_POST['c']) && empty($_POST['s'])){
+            return $this->load->view('partials/cities', $result);
+        }
+        else if(!empty($_POST['c']) && !empty($_POST['s'])){
+            if(count($result['cities']) == 0){
+                $result['maidans'] = $this->soghan_model->getMaidans('country_id', $_POST['c']);
+                return $this->load->view('partials/maidans', $result);
+            }
+            else{
+                return $this->load->view('partials/cities', $result);
+            } 
+        }
+        else{
+            return $this->load->view('partials/default_cities', $result);
         }
     }
     
     public function get_maidan_by_city(){
         
-        $result['maidans'] = $this->soghan_model->getMaidans('city_id', $_POST['c']);
         if(!empty($_POST['c'])){
+            $result['maidans'] = $this->soghan_model->getMaidans('city_id', $_POST['c']);
             return $this->load->view('partials/maidans', $result);
         }
         else{
             return $this->load->view('partials/defaul_maidans', $result);
         }
     }
-
+    
     public function get_subcat_by_cat(){
-
+        
         $result['subcats'] = $this->soghan_model->getSubCatByCat($_POST['c']);
         if(!empty($_POST['c'])){
             return $this->load->view('partials/subcats', $result);
@@ -526,9 +548,9 @@ class Soghan extends CI_Controller {
             return $this->load->view('partials/default_subcats', $result);
         }
     }
-
+    
     public function get_types_by_subcat(){
-
+        
         $sub_cat = explode('-',$_POST['c']);
         $result['types'] = $this->soghan_model->getTypeBySubCat($sub_cat[0]);
 
@@ -537,18 +559,19 @@ class Soghan extends CI_Controller {
         }else{
             return '0';
         }
+        
     }
-
+    
     public function get_genders_by_subcat(){
-
+        
         $sub_cat = explode('-',$_POST['c']);
         $result['genders'] = $this->soghan_model->getGenderBySubCat($sub_cat[0], '');
 
         return $this->load->view('partials/search_gender', $result);
     }
-
+    
     public function get_genders_by_type(){
-
+        
         $type = explode('-',$_POST['c']);
         $result['genders'] = $this->soghan_model->getGenderBySubCat('', $type[1]);
 
@@ -560,7 +583,7 @@ class Soghan extends CI_Controller {
         $data['title'] = 'Vendors - Soghan.ae';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         
-        $result['vendors'] = $this->soghan_model->getVendors('', 'english_');
+        $result['vendors'] = $this->soghan_model->getVendors();
         
         $total = $this->soghan_model->getVendorsList(array('vendor_details.vendor_id' => $this->uri->segment(2)));
         $per_pg = 10;
@@ -646,11 +669,13 @@ class Soghan extends CI_Controller {
         $config['last_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        $result['links'] = $this->pagination->create_links();
-
-        $result['posts'] = $this->soghan_model->getPosts($offset, $per_pg);
+        $result['links'] = $this->pagination->create_links();        
+        
         $result['countries'] = $this->soghan_model->getMaidanCountries();
         $result['sub_cats'] = $this->soghan_model->getAllSubCategories();
+        
+        // $result['countries'] = $this->soghan_model->getAllCountries();
+        $result['posts'] = $this->soghan_model->getPosts($offset, $per_pg);        
         $result['cats']  = $this->soghan_model->getAllCategories();
         $this->load->view('includes/header', $data);
         $this->load->view('ads_list', $result);
@@ -673,10 +698,10 @@ class Soghan extends CI_Controller {
         $this->load->view('ad_detail', $result);
         $this->load->view('includes/footer');
     }
-
+    
     public function search_post(){
-
-
+        
+        
         if(!empty($_POST['type'])){
             $type = explode('-', $_POST['type']);
             $this->session->set_userdata('type', $type[1]);
@@ -704,26 +729,26 @@ class Soghan extends CI_Controller {
         }else{
             $this->session->unset_userdata('gender');
         }
-
+                
         // if(!empty($_POST['country_h']) && !empty($_POST['sub_cat'])){
-        // $this->session->set_userdata('country', $_POST['country_h']);
-        // $this->session->set_userdata('sub_cat', $_POST['sub_cat']);
+            // $this->session->set_userdata('country', $_POST['country_h']);
+            // $this->session->set_userdata('sub_cat', $_POST['sub_cat']);
         // }
         // else if(!empty($_POST['cnt'])){
-        // $this->session->set_userdata('country', $_POST['country_h']);
-        // $this->session->unset_userdata('sub_cat');
+            // $this->session->set_userdata('country', $_POST['country_h']);
+            // $this->session->unset_userdata('sub_cat');
         // }
         // else if(!empty($_POST['cat'])){
-        // $this->session->set_userdata('sub_cat', $_POST['sub_cat']);
-        // $this->session->unset_userdata('country');
+            // $this->session->set_userdata('sub_cat', $_POST['sub_cat']);
+            // $this->session->unset_userdata('country');
         // }
-
+                
         $total = $this->soghan_model->searchPost($this->session->userdata('country'), $this->session->userdata('city'), $this->session->userdata('sub_cat'), $this->session->userdata('type'), $this->session->userdata('gender'), 1);
         $per_pg = 10;
         $offset = (empty($this->uri->segment(2))) ? '0' : $this->uri->segment(2);
-
+                        
         $this->load->library('pagination');
-
+        
         $config['base_url'] = '#';
         $config['total_rows'] = count($total);
         $config['per_page'] = $per_pg;
@@ -737,7 +762,7 @@ class Soghan extends CI_Controller {
         $config['next_tag_open'] = '<li class="next">';
         $config['next_tag_close'] = '</li>';
         $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
+        $config['num_tag_close'] = '</li>'; 
         $config['cur_tag_open'] = '<li class="active"><a href="">';
         $config['cur_tag_close'] = '</a></li>';
         $config['first_tag_open'] = '<li>';
@@ -746,18 +771,18 @@ class Soghan extends CI_Controller {
         $config['last_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        $result['links'] = $this->pagination->create_links();
-
+        $result['links'] = $this->pagination->create_links();        
+        
         $result['posts'] = $this->soghan_model->searchPost($this->session->userdata('country'), $this->session->userdata('city'), $this->session->userdata('sub_cat'), $this->session->userdata('type'), $this->session->userdata('gender'), $per_pg, $offset);
-
+        
         // echo '<pre>'; print_r($result['posts']); die;
-
+        
         if($this->uri->segment(1) == 'quick_search'){
-            $data['title'] = 'Quick Search - صوغان';
+            $data['title'] = 'Quick Search - Soghan.ae';
             $data['slider'] = base_url() . 'assets/images/img8.jpg';
-
+            
             $result['cats']  = $this->soghan_model->getAllCategories();
-
+            
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
                 return $this->load->view('partials/search_ads', $result);
             }
@@ -804,7 +829,7 @@ class Soghan extends CI_Controller {
         $this->pagination->initialize($config);
         $result['links'] = $this->pagination->create_links();    
         
-        $result['data'] = $this->soghan_model->getLinks($per_pg, $offset, 'english_');
+        $result['data'] = $this->soghan_model->getLinks($per_pg, $offset);
         
         $data['title'] = 'Related Links - Soghan.ae';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
@@ -830,11 +855,11 @@ class Soghan extends CI_Controller {
         $data['title'] = 'Calendar- Soghan.ae';
         $events = $this->soghan_model->getEvents();
         $data['events'] = $this->soghan_model->getEvents(date('Y-m-d'), '1');
-        $data['date'] = date('Y-m-d');
-        $result['date'] = date('Y-m-d');
-
+        $data['date'] = date('Y-m-d');        
+        $result['date'] = date('Y-m-d');        
+        
         foreach($events as $key => $row){
-
+            
             if($row['all_day'] == 0){
                 $result['events'][$key]['title'] = $row['title'];
                 $result['events'][$key]['start'] = date('Y-m-d', strtotime($row['start_time']));
@@ -843,16 +868,28 @@ class Soghan extends CI_Controller {
             else{
                 $result['events'][$key]['title'] = $row['title'];
                 $result['events'][$key]['start'] = date('Y-m-d', strtotime($row['event_date']));
-                $result['events'][$key]['end']   = date('Y-m-d', strtotime($row['event_date']));
+                $result['events'][$key]['end']   = date('Y-m-d', strtotime($row['event_date']));                
             }
         }
-
+        
         $this->load->view('includes/header', $data);
         $this->load->view('calendar', $data);
         $this->load->view('includes/footer', $result);
     }
     
-    public function get_events(){
+    public function get_events(){       
+        
+        // header('Content-Type: text/html; charset=utf-8');
+        // $standard = array("0","1","2","3","4","5","6","7","8","9");
+        // $eastern_arabic_symbols = array("٠","١","٢","٣","٤","٥","٦","٧","٨","٩");
+        // $current_date = date('d', strtotime($_POST['date'])).'-'.date('m', strtotime($_POST['date'])).'-'.date('Y', strtotime($_POST['date']));
+        // $arabic_date = str_replace($eastern_arabic_symbols, $standard , $current_date);
+//         
+        // foreach($standard as $key => $st){
+            // $new_date = str_replace($eastern_arabic_symbols[$key], $st, $_POST['date']);            
+        // }
+//         
+        // die($new_date);
         
         $result['events'] = $this->soghan_model->getEvents($_POST['date'], $_POST['s']);
         $result['date'] = $_POST['date'];
