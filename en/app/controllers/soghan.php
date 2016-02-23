@@ -143,8 +143,8 @@ class Soghan extends CI_Controller {
                 $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]');
             }
             $this->form_validation->set_rules('mobilenumber', 'Mobile', 'trim|required');
-            $this->form_validation->set_rules('country', 'Country', 'trim|required');
-            $this->form_validation->set_rules('city', 'City', 'trim|required');
+            // $this->form_validation->set_rules('country', 'Country', 'trim|required');
+            // $this->form_validation->set_rules('city', 'City', 'trim|required');
 
             if ($this->form_validation->run() == FALSE) {
 //                $a = str_replace('<p>', '', validation_errors());
@@ -161,9 +161,9 @@ class Soghan extends CI_Controller {
                     'first_name'    => $this->input->get_post('firstname'),
                     'middle_name'   => $this->input->get_post('lastname'),
                     'family_name'   => $this->input->get_post('familyname'),
-                    'mobile'        => $this->input->get_post('mobilenumber'),
-                    'country_name'  => $country->country_name,
-                    'city_name'     => $country->city_name
+                    'mobile'        => $this->input->get_post('mobilenumber')
+                    // 'country_name'  => $country->country_name,
+                    // 'city_name'     => $country->city_name
                 );
                 $res = $this->soghan_model->updateRecord('users', 'user_id', $this->session->userdata('user_id'), $user_data);
                 if($res){
@@ -180,13 +180,12 @@ class Soghan extends CI_Controller {
                 else{
                     $user_data = array(
                         'first_name'   => $this->input->get_post('firstname'),
-                        'middle_name'  => $this->input->get_post('middlename'),
-                        'family_name'  => $this->input->get_post('familyname'),
+                        'middle_name'  => $this->input->get_post('lastname'),
                         'email'        => $this->input->get_post('email'),
                         'password'     => $this->input->get_post('password'),
-                        'mobile'       => $this->input->get_post('mobilenumber'),
-                        'country_name' => $country->country_name,
-                        'city_name'    => $country->city_name
+                        'mobile'       => $this->input->get_post('mobilenumber')
+                        // 'country_name' => $country->country_name,
+                        // 'city_name'    => $country->city_name
                     );
                     
                     $res = $this->soghan_model->saveRecord('users', $user_data);            
