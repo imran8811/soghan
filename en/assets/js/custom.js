@@ -316,6 +316,7 @@ $(document).ready(function(){
         });
     });
 
+//    $('.jash').click(function(e) {
     $('.profile-form .btn-submit').click(function(e) {
         var obj = $(this);
         var body = $("body");

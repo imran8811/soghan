@@ -22,8 +22,8 @@ $config['base_url']	= 'http://localhost/Dropbox/soghandev/en/';
 //$config['base_url']	= 'http://synergistics.ae/soghan/';
 //$config['base_url']	= 'http://synergistics.ae/soghan/';
 
-$config['success']	= 'Success';
-$config['error']	= 'Error';
+$config['success'] = 'Success';
+$config['error']	 = 'Error';
 
 /*
 |--------------------------------------------------------------------------

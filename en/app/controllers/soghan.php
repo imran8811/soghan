@@ -120,7 +120,7 @@ class Soghan extends CI_Controller {
       redirect('/');
     }
     
-    public function user_register() {
+    public function user_register() { die('here');
         
         if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             $this->check_already_loggedin();
@@ -136,7 +136,7 @@ class Soghan extends CI_Controller {
         }
         else{            
             $this->form_validation->set_rules('firstname', 'First Name', 'trim|required');
-            $this->form_validation->set_rules('familyname', 'Family Name', 'trim|required');
+            $this->form_validation->set_rules('lastname', 'Family Name', 'trim|required');
             if($this->session->userdata('user_id')==FALSE){
                 $this->form_validation->set_rules('email', 'Email', 'trim|required|email');
                 $this->form_validation->set_rules('password', 'Password', 'trim|required');

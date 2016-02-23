@@ -13,7 +13,7 @@
                 <div class="input-wrap">
                     <label for="lastname">Family Name</label>
                     <div class="input-inner">
-                        <input type="text" id="familyname" name="familyname" required minlength="3" value="<?php echo $user->family_name; ?>" disabled ='false'>
+                        <input type="text" id="lastname" name="lastname" required minlength="3" value="<?php echo $user->middle_name; ?>" disabled ='false'>
                         <span class="icon lastname">icon</span>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="input-wrap">
-                    <input type="submit" class="btn-submit" value="Edit">
+                    <input type="submit" class="btn-submit" data-value="Edit" value="Edit">
                 </div>
             </form>
         </div>
