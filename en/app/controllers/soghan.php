@@ -22,9 +22,9 @@ class Soghan extends CI_Controller {
         $data['slider'] = base_url() . 'assets/images/img1.jpg';        
         
         $result['countries'] = $this->soghan_model->getMaidanCountries(); 
-        $result['posts']   = $this->soghan_model->getPosts(0, 36);
-        $result['vendors'] = $this->soghan_model->getVendors();
-        $result['cats']    = $this->soghan_model->getAllCategories();
+        $result['posts']    = $this->soghan_model->getPosts(0, 36);
+        $result['vendors']  = $this->soghan_model->getVendors();
+        $result['cats']     = $this->soghan_model->getAllCategories();
         $result['sub_cats'] = $this->soghan_model->getAllSubCategories();
         
         $this->load->view('includes/header', $data);
