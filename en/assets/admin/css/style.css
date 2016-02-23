@@ -1,0 +1,110 @@
+ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+#header {
+	overflow:hidden;
+	border-bottom:1px solid #ccc;
+	padding:0 0 20px;
+}
+#header .logo {
+	float:left;
+	width:10%;
+}
+#header .logo img{
+	display:block;
+	width:100%;
+	height:auto;
+}
+#header .main-nav {
+	float:right;
+	text-align:right;
+	margin:30px 0 0;
+}
+.main-nav li{
+	float:left;
+	text-align:right;
+	margin:0 0 0 30px;
+}
+#main {
+	overflow:hidden;
+	padding:0 0 50px;
+}
+#sidebar {
+	float:left;
+	width:30%;
+}
+.content {
+	float:left;
+	width:70%;
+}
+.signup-form,
+.login-form {
+	overflow:hidden;
+	width:30%;
+	margin:80px auto;
+}
+.login-form form {overflow:hidden; margin: 0 0 20px;}
+.login-form .input-wrap {
+	overflow:hidden;
+	margin:0 0 20px;
+}
+.books-listing {
+	overflow:hidden;
+}
+.books-listing > li {
+	overflow:hidden;
+	padding:20px 0;
+	border-bottom:1px solid #ccc;
+}
+.books-listing .image-area {
+	float:left;
+	width:10%;
+}
+.books-listing .image-area img{
+	display:block;
+	width:100%;
+	height:auto;
+}
+.books-listing .details-area {
+	float:left;
+	width:80%;
+	padding:0 0 0 5%;
+}
+.details-area .title-area {
+	overflow:hidden;
+}
+.details-area .title-area .title{
+	float:left;
+	width:80%;
+	margin:0 0 20px;
+}
+.details-area .title-area .price{
+	float:right;
+	width:20%;
+}
+.submit-area,
+.search-bar {
+    margin-top: 100px;
+    overflow: hidden;
+    text-align: right;
+}
+.search-bar input[type="text"] {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 20px;
+    width: 40%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-right: 20px;
+}
+#footer {
+	background:#666;
+	color:#fff;
+	padding:30px 0;
+}
+#footer .copyright {
+	display:block;
+	text-align:center;
+}

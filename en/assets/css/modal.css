@@ -1,0 +1,75 @@
+.modal {
+  display: none;
+  max-width: 700px;
+  background: #ce9769;
+  padding: 40px 0 20px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 0 10px #000;
+  -moz-box-shadow: 0 0 10px #000;
+  -o-box-shadow: 0 0 10px #000;
+  -ms-box-shadow: 0 0 10px #000;
+  box-shadow: 0 0 10px #000;
+  font-size: 30px;
+  line-height: 35px;
+  color: #fff;
+  text-align: center;
+}
+.modal p {
+  padding: 0 40px;
+  margin: 0 0 40px;
+}
+.modal .modal-head {
+  display: block;
+  background: #b47e51;
+  padding: 10px 0;
+  text-align: center;
+  margin: 0 0 20px;
+}
+.modal .modal-head img {
+  display: inline-block;
+  vertical-align: middle;
+}
+.modal .btn-download {
+  background: #ffcc9b url("../images/icon32.png") no-repeat 97% 50%;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 30px;
+  line-height: 35px;
+  color: #984b43;
+  border: 1px solid #868377;
+  border-radius: 5px;
+  display: block;
+  max-width: 30%;
+  margin: 0 auto;
+}
+.modal a.close-modal {
+  position: absolute;
+  top: -12.5px;
+  right: -12.5px;
+  display: block;
+  width: 37px;
+  height: 36px;
+  text-indent: -9999px;
+  background: url(../images/close.png) no-repeat 0 0;
+}
+
+.modal-spinner {
+  display: none;
+  width: 64px;
+  height: 64px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-right: -32px;
+  margin-top: -32px;
+  background: url(../images/spinner.gif) #111 no-repeat center center;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -o-border-radius: 8px;
+  -ms-border-radius: 8px;
+  border-radius: 8px;
+}

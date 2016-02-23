@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/views/ad_detail.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/calendar.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/calendar_detail.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/change_password.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/forgot_password.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/includes/footer-home.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/includes/footer.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/index.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/link_details.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/partials/cities.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/partials/default_cities.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/partials/default_maidan.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/partials/maidans.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/reset_password.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/search_panel.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/signin.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/signup.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/video_details.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/videos.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/view_profile.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assets/js/custom.js" charset="UTF-8" />
+    <file url="PROJECT" charset="ISO-8859-1" />
+  </component>
+</project>

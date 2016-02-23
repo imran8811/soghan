@@ -1,0 +1,156 @@
+.rtl {direction: rtl;}
+.rtl .header-top .logo {float: right;}
+.rtl .header-top .header-top {
+    float: left;
+    text-align: left;
+}
+.rtl .logged-in {
+    margin: 0 0 10px;
+    position: relative;
+}
+.rtl .logged-in:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.rtl .main-menu ul li {
+    font-size: 22px;
+}
+.rtl .logged-in .user-name {margin: 5px 10px 0 0;}
+.rtl .header-top .switch-lang {text-align: left;}
+.rtl .header-top .dropdown li a {
+    text-align: right;
+    padding: 10px 25px 10px 3px;
+}
+.rtl .header-top .dropdown li a::before {
+    right: 0;
+}
+.rtl .profile-form .input-inner .icon {
+    right: 1px;
+    border-radius: 0 5px 5px 0;
+}
+.rtl .profile-form .btn-submit {
+    padding: 0 20px 15px;
+}
+.rtl .appstore-links li {float: left;}
+.rtl .appstore-links li:first-child {margin: 0;}
+.rtl .appstore-links li a {background: url("../images/appstore.png") no-repeat;}
+.rtl .appstore-links li.playstore a {background:url("../images/googleplay.png") no-repeat;}
+.rtl .links-cont .single-link .image-area {
+    margin: 0 0 0 20px;
+    border-left: 1px solid #ccc;
+}
+.rtl .single-ad .image-area {
+    float: right;
+    margin:0 0 0 10px;
+}
+.rtl .single-ad .ad-details {float: left;}
+.rtl .ad-details .location,
+.rtl .single-video .video-details .title,
+.rtl .vendor-inner .details .phone,
+.rtl .vendor-list .ad-details .phone {
+    background-position: 100% 50%;
+    padding: 0 50px 0 0;
+    direction: ltr;
+    text-align: right;
+}
+.rtl .vendor-list .ad-details .phone {
+    background: url("../images/icon23-rtl.png") no-repeat 100% 50%;
+}
+.rtl .details-cont .head .links li {
+    background-position: 100% 50%;
+    padding: 0 10px 0 50px;
+}
+.rtl .ad-details .title-area .price {
+    background-position: 100% 50%;
+    padding: 12px 30px 12px 5px;
+}
+.rtl .single-video .image-area {float: right;}
+.rtl .single-video .video-details {float: left;}
+.rtl .details-cont .head .links li:after {left: 100%;}
+.rtl .details-cont .head .links {padding: 0 40px 0 0;}
+.rtl .details-cont .head .price {padding: 12px 10px 0 50px;}
+.rtl .inner-cont .detail-list {float: right;}
+.rtl .inner-cont .contact-details {float: left;}
+.rtl .details-cont .note span,
+.rtl .details-cont .description span {
+    background: url("../images/bg-note-rtl.png") no-repeat;
+    padding: 25px 15px;
+}
+.rtl .contact-area {padding: 198px 25px 0 0;}
+.rtl .inner-cont .detail-list ul li,
+.rtl .events-cont ul li span {
+    float: right;
+}
+.rtl .inner-cont .detail-list ul li:first-child {
+    float: right;
+    text-align: right;
+}
+.rtl .login-form .input-inner .icon,
+.rtl .login-form input[type='text'],
+.rtl .login-form input[type='email'],
+.rtl .login-form input[type='password'] {
+    right: 1px;
+    border-radius: 0 5px 5px 0;
+}
+.rtl .inner-cont .detail-list ul li {
+    border-left: none;
+    border-right: 1px solid #fff;
+}
+.rtl .profile-form .input-inner .icon.email {
+    left: 79.5%;
+    border-radius: 0 5px 5px 0;
+}
+.rtl .profile-form input[type='text'],
+.rtl .profile-form input[type='email'],
+.rtl .profile-form input[type='password'] {
+    padding: 0 90px 0 10px;
+}
+.rtl .login-form input[type='text'],
+.rtl .login-form input[type='email'],
+.rtl .login-form input[type='password'] {
+    padding: 0 58px 0 10px;
+}
+.rtl .register-cont .register-form {float: right;}
+.rtl .register-form input[type='text'],
+.rtl .register-form input[type='email'],
+.rtl .register-form input[type='password'] {
+    padding: 0 90px 0 10px;
+}
+.rtl .contact-area {float: left;}
+.rtl .contact-area .skype,
+.rtl .contact-area .phone,
+.rtl .vendor-inner .details .sub-title,
+.rtl .vendor-inner .details .location {
+    background-position: 100% 50%;
+    padding: 0 75px 0 0;
+}
+.rtl .contact-area .phone {
+    background: url("../images/icon16-rtl.png") no-repeat 100% 50%;
+}
+.rtl .register-form .input-inner .icon {
+    right: 1px;
+    border-radius: 0 5px 5px 0;
+}
+.rtl .boxes .box {margin: 0 0 27px 18px;}
+.rtl .vendor-inner .image-area {
+    float: right;
+    margin: 0 0 0 20px;
+}
+@media screen and (max-width: 767px){
+    .rtl .main-menu ul li {text-align: right;}
+    .rtl .header-top .logo {float: left;}
+    .rtl .login-form input[type="text"],
+    .rtl .login-form input[type="email"],
+    .rtl .login-form input[type="password"] {
+        padding: 0 10px;
+        border-radius: 5px;
+    }
+    .rtl .contact-area {padding: 50px 25px 0 0;}
+    .rtl .ad-details .title-area .title,
+    .rtl .ad-details .location {
+        padding: 0 30px 0 0;
+    }
+    .rtl .single-video .video-details .title, {padding: 0 40px 0 0;}
+    .rtl .ad-details .title-area .title {padding: 0;}
+}
