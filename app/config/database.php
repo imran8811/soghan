@@ -66,10 +66,10 @@ $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 //live
-//$db['default']['hostname'] = 'localhost';
-//$db['default']['username'] = 'synerg98';
-//$db['default']['password'] = 'Dubai11235$';
-//$db['default']['database'] = 'synerg98_soghan';
+//$db['default']['hostname'] = '46.101.6.48';
+//$db['default']['username'] = 'hamza';
+//$db['default']['password'] = 'SYocean';
+//$db['default']['database'] = 'soghan_db';
 //$db['default']['dbdriver'] = 'mysql';
 //$db['default']['dbprefix'] = '';
 //$db['default']['pconnect'] = TRUE;

@@ -29,11 +29,18 @@
     <aside id="sidebar">
         <h2>&nbsp;</h2>
     </aside>
+    
+    <div>
+        <img src="<?php echo base_url().'assets/admin/images/green_btn.png'; ?>" width="15" height="15" />
+        <img src="<?php echo base_url().'assets/admin/images/MarketPlaces.png'; ?>" width="75" height="55" />
+        <img src="<?php echo base_url().'assets/admin/images/blue_btn.png'; ?>" width="15" height="15" />
+        <img src="<?php echo base_url().'assets/admin/images/Portfolio.png'; ?>" width="75" height="55" />
+    </div>
     <div class="content" style="width: 100%;">
         <?php if (count($posts) > 0) { ?>
-            <h1 class="heading">Posts List</h1>
+            <h1 class="heading">User Posts List</h1>
 
-            <form action="<?php echo base_url().'del_post'; ?>" method="post">
+            <form action="<?php echo base_url().'del_portfolio/'.$posts[0]['user_id']; ?>" method="post">
                 <button type="submit" class="btn btn-primary pull-right" style="margin-bottom: 10px;">Delete Selected</button>
                 <table border="1" style="width: 100%;">
                     <tr>
@@ -47,10 +54,11 @@
                         <th>Days</th>
                         <th>Email</th>
                         <th>Mobile</th>
+                        <th>Status</th>
                     </tr>
                 <?php foreach ($posts as $row) { ?>
                     <tr>
-                        <td><input type="checkbox" id="chk_del_<?php echo $row['post_id']; ?>" name="chk_del[]" value="<?php echo $row['post_id']; ?>" onclick="check_del(this.value)"></td>
+                        <td><input type="checkbox" id="chk_del" name="chk_del[]" value="<?php echo $row['post_id']; ?>"></td>
                         <td><?php echo $row['camel_name']; ?></td>
                         <td><?php echo $row['cat_name']; ?></td>
                         <td><?php echo $row['sub_cat_name']; ?></td>
@@ -58,11 +66,17 @@
                         <td><?php echo number_format($row['price']); ?></td>
                         <td><a href="<?php echo $row['picture']; ?>" target="_blank" ><img src="<?php echo $row['picture']; ?>" width="100px" height="100px" /></a></td>
                         <td><?php if($row['diff'] == 0){ echo 'Today'; } else{ echo $row['diff'].' days ago'; } ?></td>
-                        <td id="em_<?php echo $row['post_id']; ?>"><?php echo $row['email']; ?><input type="hidden" id="email_<?php echo $row['post_id']; ?>" name="email_<?php echo $row['post_id']; ?>" ></td>
+                        <td><?php echo $row['email']; ?>
+                            <input type="hidden" id="email_<?php echo $row['post_id']; ?>" name="email_<?php echo $row['post_id']; ?>" value="<?php echo $row['email']; ?>" >
+                        </td>
                         <td><?php echo $row['mobile']; ?></td>
-<!--                        <td>-->
-<!--                            <a href="--><?php //echo base_url().'del_post/'.$row['post_id']; ?><!--"><span class="post_link">Delete</span></a>-->
-<!--                        </td>-->
+                        <td>
+                            <?php if($row['status']==0){ ?>
+                            <img src="<?php echo base_url().'assets/admin/images/blue_btn.png'; ?>" width="15" height="15" />
+                            <?php }else{ ?>
+                            <img src="<?php echo base_url().'assets/admin/images/green_btn.png'; ?>" width="15" height="15" />
+                            <?php } ?>
+                        </td>
                     </tr>
                 <?php }?>
                 </table>
@@ -76,16 +90,3 @@
         ?>
     </div>
 </div>
-
-<script>
-    
-    function check_del(id){
-        
-        if($('#chk_del_'+id).is(':checked')){
-            var email = $('#em_'+id).text();
-            $('#email_'+id).val(email);
-//            alert(email);
-        }
-    }
-    
-</script>

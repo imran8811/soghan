@@ -35,7 +35,11 @@
                 ?>
                 <a href="<?php echo base_url().'market_place_detail/'.$posts[$i]['post_id']; ?>" class="box">
                     <div class="ad-image">
-                        <img src="<?php echo $posts[$i]['picture']; ?>" alt="image" height="250">
+                        <?php if($posts[$i]['picture']) { ?>
+                            <img src="<?php echo $posts[$i]['picture']; ?>" alt="image" height="200">
+                        <?php } else { ?>
+                            <img src="<?php echo base_url()?>assets/images/placeholder.jpg" alt="image" height="200">
+                        <?php } ?>
                         <div class="mask">
                             <img src="<?php echo base_url(); ?>assets/images/icon4.png" alt="icon image">
                             <span class="text"><?php echo ucfirst($posts[$i]['cat_name']).' - '.ucfirst($posts[$i]['sub_cat_name']).' - '.ucfirst($posts[$i]['type_name']); ?></span>
@@ -52,7 +56,7 @@
         } ?>
     </div>
     <div class="vendors">
-        <h2>Looking for vendors</h2>
+        <span>Looking for vendors</span>
         <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. ed quia consequunturmagni dolores eos qu</p>
         <div class="jcarousel2-wrapper">
             <div class="jcarousel2">

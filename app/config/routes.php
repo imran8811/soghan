@@ -148,11 +148,22 @@ $route['view_adverts/(:num)'] = "admin/view_ads/$1";
 $route['del_advert/(:num)'] = "admin/del_ad/$1";
 
 
+//================Market Places=====================
 $route['view_market_places'] = "admin/get_market_places";
 $route['view_market_places/(:num)'] = "admin/get_market_places/$1";
-//$route['del_post/(:num)'] = "admin/delete_market_place/$1";
+$route['view_expire_market_places'] = "admin/get_expire_market_places";
+$route['view_expire_market_places/(:num)'] = "admin/get_expire_market_places/$1";
+$route['del_post/(:any)'] = "admin/delete_market_place";
 $route['del_post'] = "admin/delete_market_place";
 
+
+$route['view_users'] = "admin/get_users";
+$route['view_users/(:num)'] = "admin/get_users/$1";
+$route['view_portfolio/(:num)'] = "admin/get_user_portfolio/$1";
+$route['view_portfolio/(:num)/(:num)'] = "admin/get_user_portfolio/$1/$1";
+$route['del_portfolio/(:num)'] = "admin/delete_market_place/$1";
+$route['active/(:num)/(:num)'] = "admin/user_active_block/$1/$1";
+$route['block/(:num)/(:any)'] = "admin/user_active_block/$1/$1";
 //---- Admin routes end ----\\
 
 
@@ -161,12 +172,16 @@ $route['del_post'] = "admin/delete_market_place";
   //---- Mobile routes start ----\\
 
 $route['signup'] = "api/save_user";
+$route['update_profile'] = "api/save_user";
 $route['signin'] = "api/user_login";
 $route['verification'] = "api/user_verify";
 $route['resend'] = "api/resend_email";
 $route['add_market_place'] = "api/save_post";
 $route['market_places'] = "api/get_posts";
 $route['del_market_place'] = "api/delete_post";
+$route['portfolio_backup'] = "api/save_post";
+$route['portfolio'] = "api/get_portfolio";
+//$route['del_portfolio'] = "api/delete_portfolio";
 $route['views/(:num)'] = "api/update_views/$1";
 $route['links'] = "api/get_links";
 $route['vendors'] = "api/get_vendors";

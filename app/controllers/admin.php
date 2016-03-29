@@ -202,8 +202,7 @@ class Admin extends CI_Controller {
                 }
             }
         }        
-    }
-    
+    }    
     
     public function event_form($id=''){
         
@@ -1014,7 +1013,7 @@ class Admin extends CI_Controller {
     public function delete_maidans($id){
         $res = $this->admin_model->deleteRecord('maidans', 'maidan_id', $id);
         if($res){
-            $this->session->set_userdata('msg', 'Maidan Succesfully Deleted !');
+            $this->session->set_userdata('msg', 'Maidan Successfully Deleted !');
         }else{
             $this->session->set_userdata('msg', 'Maidan could not be Deleted !');
         }
@@ -1250,7 +1249,7 @@ class Admin extends CI_Controller {
         $this->pagination->initialize($config);
         $result['links'] = $this->pagination->create_links();
 
-        $result['posts'] = $this->admin_model->getPosts($offset, $per_pg);
+        $result['posts'] = $this->admin_model->getPosts('', $offset, $per_pg);
         $this->load->view('admin/includes/header', $data);
         $this->load->view('admin/view_market_places', $result);
     }
@@ -1258,19 +1257,225 @@ class Admin extends CI_Controller {
     public function delete_market_place(){
 
         $post_id = $_POST['chk_del'];
+        
         if(count($post_id) > 0){
             for($i=0; $i<count($post_id); $i++){
                 $res = $this->soghan_model->deletePost($post_id[$i]);
+                
+                if($res){
+                    $this->soghan_model->updateRecord('posts', 'marketplace_id', $post_id[$i], 
+                        array('marketplace_id' => '', 'is_listed' => 0));
+//                    $msg = '<p>Dear User,</p>
+//                        <p>Your Ad has been removed from Soghan market place due to some reason. For any query Please contact 
+//                        <a href="mailto:info@soghan.ae?Subject=Soghan Delete Post Query" target="_top">info@soghan.ae.</a></p><br>
+//                        Regards,<br>
+//                        Soghan';
+                    
+                    $msg = $this->load->view('post_del_email', '', true);
+                    $this->send_email($_POST['email_'.$post_id[$i]], '', 'صوغان: تم حذف اعلانكم', $msg);
+                }
             }
-            if($res){
-                $this->session->set_userdata('msg', 'Post Successfully Deleted !');
-            }else{
-                $this->session->set_userdata('msg', 'Post could not be Deleted !');
-            }
+            $this->session->set_userdata('msg', 'Post Successfully Deleted !');
         }else{
             $this->session->set_userdata('msg', 'No Post Selected !');
         }
-        redirect('view_market_places');
+        
+        if($this->uri->segment(2) == 'e'){
+            redirect('view_expire_market_places');
+        }else if($this->uri->segment(2) > 0){
+            redirect('view_portfolio/'.$this->uri->segment(2));
+        }else{
+            redirect('view_market_places');
+        }
+    }
+
+    public function get_expire_market_places(){
+
+        $data['title'] = 'View Market Places - Soghan.ae';
+
+        $total = $this->admin_model->getPosts(120);
+        $per_pg = 10;
+        if($this->uri->segment(2)){
+            $offset = $this->uri->segment(2);
+        }else{
+            $offset = 0;
+        }
+
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url().'view_expire_market_places/';
+        $config['total_rows'] = count($total);
+        $config['per_page'] = $per_pg;
+        $config['uri_segment'] = 2;
+        $config['full_tag_open'] = '<nav class="pagination-wrap"><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li class="next">';
+        $config['next_tag_close'] = '</li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $result['links'] = $this->pagination->create_links();
+
+        $result['posts'] = $this->admin_model->getPosts(90, $offset, $per_pg);
+        $this->load->view('admin/includes/header', $data);
+        $this->load->view('admin/view_expire_market_places', $result);
+    }    
+    
+    public function get_users(){
+
+        $data['title'] = 'View Users - Soghan.ae';
+
+        $total = $this->admin_model->getAllUsers();
+        $result['total'] = count($total);
+        $per_pg = 10;
+        if($this->uri->segment(2)){
+            $offset = $this->uri->segment(2);
+        }else{
+            $offset = 0;
+        }
+
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url().'view_users/';
+        $config['total_rows'] = count($total);
+        $config['per_page'] = $per_pg;
+        $config['uri_segment'] = 2;
+        $config['full_tag_open'] = '<nav class="pagination-wrap"><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li class="next">';
+        $config['next_tag_close'] = '</li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $result['links'] = $this->pagination->create_links();
+
+        $result['users'] = $this->admin_model->getAllUsers($offset, $per_pg);
+        $this->load->view('admin/includes/header', $data);
+        $this->load->view('admin/view_users', $result);
+    }
+    
+    public function get_user_portfolio($user_id){
+
+        $data['title'] = 'View User Portfolio - Soghan.ae';
+
+        $total = $this->admin_model->getUserPosts($user_id);
+        $per_pg = 10;
+        if($this->uri->segment(3)){
+            $offset = $this->uri->segment(3);
+        }else{
+            $offset = 0;
+        }
+
+        $this->load->library('pagination');
+
+        $config['base_url'] = base_url().'view_portfolio/'.$user_id;
+        $config['total_rows'] = count($total);
+        $config['per_page'] = $per_pg;
+        $config['uri_segment'] = 3;
+        $config['full_tag_open'] = '<nav class="pagination-wrap"><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li class="prev">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li class="next">';
+        $config['next_tag_close'] = '</li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $result['links'] = $this->pagination->create_links();
+
+        $result['posts'] = $this->admin_model->getUserPosts($user_id, $offset, $per_pg);       
+        $this->load->view('admin/includes/header', $data);
+        $this->load->view('admin/view_user_portfolio', $result);
+    }
+    
+    function user_active_block(){
+        
+        $act = ($this->uri->segment(3) == '1') ? 'Activated' : 'Blocked';
+            
+        $res = $this->admin_model->updateRecord('users', 'user_id', $this->uri->segment(2), array('status' => $this->uri->segment(3)));
+        if($res){
+            $user = $this->admin_model->checkRecord('users', array('user_id' => $this->uri->segment(2)));
+                        
+//            $msg = '<p>Dear User,</p>
+//                <p>Your account has been '.$act.' from Soghan due to violation. For Re-activate your account Please email us at
+//                <a href="mailto:info@soghan.ae?Subject=Soghan Re-activate Account" target="_top">info@soghan.ae.</a></p><br>
+//                Regards,<br>
+//                Soghan';
+            
+            $msg = $this->load->view('user_block_email', '', true);
+            $this->send_email($user->email, '', 'تعليق الحساب', $msg);
+            
+            $this->session->set_userdata('msg', 'Successfully '.$act);
+        }else{
+            $this->session->set_userdata('msg', 'Could not be '.$act);
+        }
+        
+        redirect('view_users');
+    } 
+    
+    function send_email($to, $f_name='', $subject, $msg){
+        
+        $this->load->library('phpmailer');
+        $mail = new PHPMailer(true); 
+        $mail->CharSet = "utf-8";
+//        $mail->IsSMTP();
+
+        // local
+//        $mail->Host = "ssl://smtp.googlemail.com";
+//        $mail->SMTPDebug = 0;
+//        $mail->SMTPAuth = true;
+//        $mail->Port = 465;
+//        $mail->Username = "hamzasynergistics@gmail.com";
+//        $mail->Password = "synergistics";
+//        $mail->AddReplyTo('no-reply@email.com', 'Soghan');
+        
+        // live                            
+        $mail->Host = "localhost";
+//        $mail->SMTPAuth = true;
+//        $mail->SMTPSecure = "ssl";
+        $mail->Username = "info@soghan.ae";
+        $mail->Password = "soghan_123@";
+//        $mail->Port = "465";
+        $mail->AddReplyTo('do-not-reply@soghan.ae', '');
+
+        $mail->AddAddress($to, $f_name);
+        $mail->SetFrom('do-not-reply@soghan.ae', 'Soghan');
+        $mail->Subject = $subject;
+        $body = $msg;
+              
+        $mail->MsgHTML($body);
+        $mail->Send();
     }
   
 }

@@ -18,7 +18,11 @@
                     <div class="carousel carousel-stage">
                         <ul>
                             <?php foreach($detail as $pic){ ?>
-                                <li><img src="<?php echo $pic['picture']; ?>" alt="slider image"></li>
+                                <li><?php if($pic['picture']){ ?>
+                                        <img src="<?php echo $pic['picture']; ?>" alt="slider image">
+                                    <?php } else { ?>
+                                        <img src="<?php echo base_url(); ?>assets/images/placeholder.jpg" alt="slider image">
+                                    <?php } ?></li>
                             <?php } ?>
                         </ul>
                     </div>
@@ -31,7 +35,11 @@
                     <div class="carousel carousel-navigation">
                         <ul>
                             <?php foreach($detail as $pic){ ?>
-                                <li><img src="<?php echo $pic['picture']; ?>" width="100" height="115" alt="slider image"></li>
+                                <li><?php if($pic['picture']){ ?>
+                                        <img src="<?php echo $pic['picture']; ?>" width="115" alt="slider image">
+                                    <?php } else { ?>
+                                        <img src="<?php echo base_url(); ?>assets/images/placeholder.jpg" width="115"  alt="slider image">
+                                    <?php } ?></li>
                             <?php } ?>
                         </ul>
                     </div>
@@ -71,14 +79,14 @@
                         <span>Owner : <?php echo ucfirst($detail[0]['family_name']); ?></span>
                     </div>
                     <div class="contact-numbers">
-                        <span>Mobile : <?php if($this->session->userdata('user_id')==TRUE){ echo $detail[0]['mobile']; } ?></span>
-                        <span>Email : <?php if($this->session->userdata('user_id')==TRUE){ echo $detail[0]['email']; } ?></span>
-                        <span>City : <?php if($this->session->userdata('user_id')==TRUE){ echo $detail[0]['city_name']; } ?></span>
-                        <?php if($this->session->userdata('user_id')==FALSE){ ?>
-                        <div class="mask">
-                            <p>Please <a href="<?php echo base_url().'login/?status='.$ad_id; ?>">Login</a> or <a href="<?php echo base_url().'register'; ?>">Register</a> to see contact details </p>
-                        </div>
-                        <?php } ?>
+                        <span>Mobile : <?php echo $detail[0]['mobile']; ?></span>
+                        <span>Email : <?php echo $detail[0]['email']; ?></span>
+                        <!--<span>City : <?php //echo $detail[0]['city_name']; ?></span>-->
+                        <?php //if($this->session->userdata('user_id')==FALSE){ ?>
+<!--                        <div class="mask">
+                            <p>Please <a href="<?php //echo base_url().'login/?status='.$ad_id; ?>">Login</a> or <a href="<?php //echo base_url().'register'; ?>">Register</a> to see contact details </p>
+                        </div>-->
+                        <?php //} ?>
                     </div>
                 </div>
             </div>

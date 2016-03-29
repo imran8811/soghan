@@ -177,6 +177,7 @@ class Soghan_model extends CI_Model {
         $query = $this->db->query("select posts.*, pictures.picture
                     from posts
                     left join pictures on pictures.post_id = posts.post_id
+                    where status = 1
                     group by post_id
                     order by post_id desc
                     $limit

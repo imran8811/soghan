@@ -37,7 +37,11 @@
         ?>
             <a href="<?php echo base_url().'market_place_detail/'.$posts[$i]['post_id']; ?>" class="box">
                 <div class="ad-image">
-                    <img src="<?php echo $posts[$i]['picture']; ?>" alt="image" height="200">
+                    <?php if($posts[$i]['picture']) { ?>
+                        <img src="<?php echo $posts[$i]['picture']; ?>" alt="image" height="200">
+                    <?php } else { ?>
+                        <img src="<?php echo base_url()?>assets/images/placeholder.jpg" alt="image" height="200">
+                    <?php } ?>
                     <div class="mask">
 <!--                        <img src="--><?php //echo base_url(); ?><!--assets/images/icon4.png" alt="icon image">-->
                         <?php
@@ -67,7 +71,7 @@
         } ?>
     </div>
     <div class="vendors">
-        <h2>أبحث عن البائعين</h2>
+        <span>أبحث عن البائعين</span>
         <div class="jcarousel2-wrapper">
             <div class="jcarousel2">
                 <ul>

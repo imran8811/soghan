@@ -1,5 +1,5 @@
 $(document).ready(function () {    
-    var base_url = 'http://localhost/Dropbox/soghandev/';
+    var base_url = 'http://localhost/Dropbox/web/soghandev/';
     //var base_url = 'http://soghan.ae/';
     $('.mkt-loader').hide();
     

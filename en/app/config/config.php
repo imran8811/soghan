@@ -15,7 +15,7 @@
 |
 */
 //local
-$config['base_url']	= 'http://localhost/Dropbox/soghandev/en/';
+$config['base_url']	= 'http://localhost/Dropbox/web/soghandev/en/';
 //$config['base_url']	= 'http://soghan.ae/en/';
 
 //live

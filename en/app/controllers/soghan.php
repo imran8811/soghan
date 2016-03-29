@@ -18,12 +18,12 @@ class Soghan extends CI_Controller {
         
         $result['youtube'] = json_decode(file_get_contents($GLOBALS['video_link'].'&maxResults=3&order=date'));
        
-        $data['title'] = 'Home - Soghan.ae';
+        $data['title'] = 'Soghan.ae';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';        
         
         $result['countries'] = $this->soghan_model->getMaidanCountries(); 
         $result['posts']    = $this->soghan_model->getPosts(0, 36);
-        $result['vendors']  = $this->soghan_model->getVendors();
+        $result['vendors']  = $this->soghan_model->getVendors('', 'english_');
         $result['cats']     = $this->soghan_model->getAllCategories();
         $result['sub_cats'] = $this->soghan_model->getAllSubCategories();
         
@@ -71,7 +71,7 @@ class Soghan extends CI_Controller {
                 $this->session->unset_userdata('ad_id');
             }           
             
-            $data['title']  = 'Login - Soghan.ae';
+            $data['title'] = 'Soghan.ae';
             $data['slider'] = base_url().'assets/images/img1.jpg';
             
             $this->load->view('includes/header', $data);
@@ -125,7 +125,7 @@ class Soghan extends CI_Controller {
         if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             $this->check_already_loggedin();
             
-            $data['title']  = 'Register - Soghan.ae';
+            $data['title'] = 'Soghan.ae';
             $data['slider'] = base_url().'assets/images/img1.jpg';
             
             $result['countries'] = $this->soghan_model->getAllCountries();
@@ -143,8 +143,6 @@ class Soghan extends CI_Controller {
                 $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]');
             }
             $this->form_validation->set_rules('mobilenumber', 'Mobile', 'trim|required');
-            // $this->form_validation->set_rules('country', 'Country', 'trim|required');
-            // $this->form_validation->set_rules('city', 'City', 'trim|required');
 
             if ($this->form_validation->run() == FALSE) {
 //                $a = str_replace('<p>', '', validation_errors());
@@ -159,11 +157,8 @@ class Soghan extends CI_Controller {
             if($this->session->userdata('user_id')==TRUE){
                 $user_data = array(
                     'first_name'    => $this->input->get_post('firstname'),
-                    'middle_name'   => $this->input->get_post('lastname'),
-                    'family_name'   => $this->input->get_post('familyname'),
+                    'family_name'   => $this->input->get_post('lastname'),
                     'mobile'        => $this->input->get_post('mobilenumber')
-                    // 'country_name'  => $country->country_name,
-                    // 'city_name'     => $country->city_name
                 );
                 $res = $this->soghan_model->updateRecord('users', 'user_id', $this->session->userdata('user_id'), $user_data);
                 if($res){
@@ -180,22 +175,54 @@ class Soghan extends CI_Controller {
                 else{
                     $user_data = array(
                         'first_name'   => $this->input->get_post('firstname'),
-                        'middle_name'  => $this->input->get_post('lastname'),
+                        'family_name'  => $this->input->get_post('lastname'),
                         'email'        => $this->input->get_post('email'),
                         'password'     => $this->input->get_post('password'),
                         'mobile'       => $this->input->get_post('mobilenumber')
-                        // 'country_name' => $country->country_name,
-                        // 'city_name'    => $country->city_name
                     );
                     
                     $res = $this->soghan_model->saveRecord('users', $user_data);            
                     if($res){
                         // $this->load->library('encrypt');
                         // $enc_email = $this->encrypt->encode($this->input->get_post('email'));
-                        $msg = 'Please click the given link to verfiy your email<br><a href="'. base_url() .'verification/?status='.$this->input->get_post('email').'" targer="blank">Click Here!</a>';
+//                        $msg = 'Please click the given link to verfiy your email<br><a href="'. base_url() .'verification/?status='.$this->input->get_post('email').'" targer="blank">Click Here!</a>';
 
-                        $this->send_email($this->input->get_post('email'), $this->input->get_post('first_name'), 'Soghan Account Verification', $msg);
-                        
+                        $msg = $this->load->view('signup_email', '', true);
+                        $msg.= '<table width="500" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td width="500" valign="top" class="class100p">
+                                    <table width="500" border="0" cellpadding="0" cellspacing="0" class="class100p">
+                                        <tr>
+                                            <td valign="top">
+                                                <table width="500" border="0" cellpadding="0" cellspacing="0">
+                                                    <tr>
+                                                        <td style="padding: 0 20px 10px 10px;">
+                                                            <p>شكرآ</p>
+                                                            <p>لتسجيلكم في تطبيق صوغان، فيما يلي اسم المستخدم وكلمة السر الخاصة بكم</p>
+                                                            <p>اسم المستخدم: '.ucwords($this->input->get_post('firstname')).' '.ucwords($this->input->get_post('lastname')).'</p>
+                                                            <a href="'. base_url() .'verification/?status='.$this->input->get_post('email').'" style="background: #9b4e46; color: #fff; padding: 10px 20px; width: 150px; display: block; text-align: center; text-decoration: none; margin: 0 auto; border-radius: 3px;">التحقق من حسابك</a>
+                                                            <p style="text-align: center">تلا تنسى ان تشارك اصدقائك بتطبيق صوغان </p>
+                                                            <p style="text-align: center">تاطيب الامنيات بالتوفيق  </p>
+                                                            <p style="text-align: center">تفريق صوغان  </p>
+                                                            <p style="text-align: center">تسجيلكم في صوغان يمثل قبولكم لأحكام وشروط الاستخدام.</p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>';
+                        $this->send_email($this->input->get_post('email'), $this->input->get_post('first_name'), 'صوغان', $msg);
                         echo json_encode(array('0', 'Successfully Signed up, Please check your email for verification'));                    
                     }else{
                         echo json_encode(array('2', 'Some error Occurred'));                    
@@ -210,7 +237,7 @@ class Soghan extends CI_Controller {
         
         $this->login_check();
         
-        $data['title']  = 'View Profile - Soghan.ae';
+        $data['title'] = 'Soghan.ae';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';
         
         $result['countries'] = $this->soghan_model->getAllCountries();
@@ -228,7 +255,7 @@ class Soghan extends CI_Controller {
         
         $this->login_check();
         
-        $data['title']  = 'Change Password - Soghan.ae';
+        $data['title'] = 'Soghan.ae';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';
         
         $user = $this->soghan_model->checkRecord('users', array('user_id' => $this->session->userdata('user_id')));
@@ -258,7 +285,7 @@ class Soghan extends CI_Controller {
         
         if ($this->form_validation->run() == FALSE)
         {
-            $data['title'] = 'Change Password - Soghan.ae';
+            $data['title'] = 'Soghan.ae';
             $data['slider'] = base_url() . 'assets/images/img1.jpg';
             
             $this->load->view('includes/header', $data);
@@ -287,7 +314,7 @@ class Soghan extends CI_Controller {
         
         if(!isset($_POST['forgot']) && empty($this->input->get_post('status'))){
                         
-            $data['title'] = 'Forgot Password - Soghan.ae';
+            $data['title'] = 'Soghan.ae';
             $data['slider'] = base_url() . 'assets/images/img1.jpg';
             
             $this->load->view('includes/header', $data);
@@ -300,7 +327,11 @@ class Soghan extends CI_Controller {
                 if($check->status == 0){
                     if($this->input->get_post('status')==1){
                         $result['status'] = 'pending';
-                        $result['msg'] = 'Not verified';
+                        $result['msg']    = 'Not verified';
+                        $result['title_en']   = 'Error';
+                        $result['title_ar']   = 'خطأ';
+                        $result['msg_en'] = 'Not verified';
+                        $result['msg_ar'] = 'لم يتم التحقق';
                         
                         header('Content-Type: application/json');
                         echo json_encode($result);
@@ -310,16 +341,54 @@ class Soghan extends CI_Controller {
                         redirect('forgot');
                     }
                 }
-                else{
-                    // $this->load->library('encrypt');
-                    // $enc_email = $this->encrypt->encode($this->input->get_post('email'));
+                else{                    
+//                    $msg = 'Please click the given link to Reset Password<br><a href="'. base_url() .'reset/?status='.$this->input->get_post('email').'" targer="blank">Click Here!</a>';
                     
-                    $msg = 'Please click the given link to Reset Password<br><a href="'. base_url() .'reset/?status='.$this->input->get_post('email').'" targer="blank">Click Here!</a>';
-                    $this->send_email($this->input->get_post('email'), $check->first_name, 'Soghan Password Reset', $msg);                
+                     $msg = $this->load->view('reset_email', '', true);
+                    $msg.='
+                        <table width="500" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td width="500" valign="top" class="class100p">
+                                    <table width="500" border="0" cellpadding="0" cellspacing="0" class="class100p">
+                                        <tr>
+                                            <td valign="top">
+                                                <table width="500" border="0" cellpadding="0" cellspacing="0">
+                                                    <tr>
+                                                        <td style="padding: 0 20px 10px 10px;">
+                                                            <p style="text-align: center">عزيزي المستخدم</p>
+                                                            <p style="text-align: center">الرجاء الضغط على الرابط لتجديد كلمة السرالخاصة بكم</p>
+                                                            <a href="'. base_url() .$lang.'reset/?status='.$this->input->get_post('email').'" style="background: #9b4e46; color: #fff; padding: 10px 20px; width: 150px; display: block; text-align: center; text-decoration: none; margin: 0 auto; border-radius: 3px;">تجديد كلمة السر</a>
+                                                            <p style="text-align: center">لا تنسى ان تشارك اصدقائك بتطبيق صوغان!</p>
+                                                            <p style="text-align: center">ولكم فائق الاحترام والتقدير. </p>
+                                                            <p style="text-align: center">تفريق صوغان  </p>
+                                                            <p style="text-align: center">تاتسجيلكم في صوغان يمثل قبولكن لأحكام وشروط الاستخدام </p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>';
+                    
+                    $this->send_email($this->input->get_post('email'), $check->first_name, 'صوغان: تجديد كلمة السر', $msg);                
                     
                     if($this->input->get_post('status')==1){
                         $result['status'] = 'Success';
                         $result['msg'] = 'Email Sent';
+                        $result['title_en']   = 'Success';
+                        $result['title_ar']   = 'نجاح';
+                        $result['msg_en'] = 'Email Sent';
+                        $result['msg_ar'] = 'البريد الإلكتروني المرسلة';
                         
                         header('Content-Type: application/json');
                         echo json_encode($result);
@@ -333,6 +402,10 @@ class Soghan extends CI_Controller {
                 if($this->input->get_post('status')==1){
                     $result['status'] = 'Error';
                     $result['msg'] = 'Email not found';
+                    $result['title_en']   = 'Error';
+                    $result['title_ar']   = 'خطأ';
+                    $result['msg_en'] = 'Email not found';
+                    $result['msg_ar'] = 'البريد الإلكتروني غير موجود';
                     
                     header('Content-Type: application/json');
                     echo json_encode($result);
@@ -346,7 +419,7 @@ class Soghan extends CI_Controller {
     }
     
     public function reset_password(){
-        $data['title'] = 'Reset Password - Soghan.ae';
+        $data['title'] = 'Soghan.ae';
         $data['slider'] = base_url() . 'assets/images/img1.jpg';
         
         if(!isset($_POST['reset'])){
@@ -392,32 +465,33 @@ class Soghan extends CI_Controller {
         }        
     }
     
-    function send_email($to, $f_name, $subject, $msg){
+    function send_email($to, $f_name='', $subject, $msg){
         
         $this->load->library('phpmailer');
-        $mail = new PHPMailer(true);
-        $mail->IsSMTP();
+        $mail = new PHPMailer(true);        
+        $mail->CharSet = "utf-8";
+//        $mail->IsSMTP();
 
         // local
-        $mail->Host = "ssl://smtp.googlemail.com";
-        $mail->SMTPDebug = 0;
-        $mail->SMTPAuth = true;
-        $mail->Port = 465;
-        $mail->Username = "hamzasynergistics@gmail.com";
-        $mail->Password = "synergistics";
-        $mail->AddReplyTo('no-reply@email.com', 'Soghan');
+//        $mail->Host = "ssl://smtp.googlemail.com";
+//        $mail->SMTPDebug = 0;
+//        $mail->SMTPAuth = true;
+//        $mail->Port = 465;
+//        $mail->Username = "hamzasynergistics@gmail.com";
+//        $mail->Password = "synergistics";
+//        $mail->AddReplyTo('no-reply@email.com', 'Soghan');
         
         // live                            
-//        $mail->Host = "localhost";
+        $mail->Host = "localhost";
 //        $mail->SMTPAuth = true;
 //        $mail->SMTPSecure = "ssl";
-//        $mail->Username = "newsletter@synergistics.ae";
-//        $mail->Password = "newsletter123@";
+        $mail->Username = "info@soghan.ae";
+        $mail->Password = "soghan_123@";
 //        $mail->Port = "465";
-//        $mail->AddReplyTo('no-reply@email.com', 'Synergistics');
+        $mail->AddReplyTo('do-not-reply@soghan.ae', '');
 
         $mail->AddAddress($to, $f_name);
-        $mail->SetFrom('info@soghan.ae', 'Soghan');
+        $mail->SetFrom('do-not-reply@soghan.ae', 'Soghan');
         $mail->Subject = $subject;
         $body = $msg;
               
@@ -582,7 +656,7 @@ class Soghan extends CI_Controller {
         $data['title'] = 'Vendors - Soghan.ae';
         $data['slider'] = base_url() . 'assets/images/img8.jpg';
         
-        $result['vendors'] = $this->soghan_model->getVendors();
+        $result['vendors'] = $this->soghan_model->getVendors('', 'english_');
         
         $total = $this->soghan_model->getVendorsList(array('vendor_details.vendor_id' => $this->uri->segment(2)));
         $per_pg = 10;
@@ -980,6 +1054,7 @@ class Soghan extends CI_Controller {
         $this->load->view("news");
         $this->load->view("includes/footer");
     }
+    
     
   
 }

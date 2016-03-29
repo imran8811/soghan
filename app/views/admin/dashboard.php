@@ -46,7 +46,9 @@
             <a href="<?php echo base_url(); ?>view_maidans"><span class="post_link views">View Maidans</span></a>
             <a href="<?php echo base_url(); ?>add_advert"><span class="post_link">Add Advert</span></a>
             <a href="<?php echo base_url(); ?>view_adverts"><span class="post_link views">View Adverts</span></a>
+            <a href="<?php echo base_url(); ?>view_users"><span class="post_link views">View Users</span></a>
             <a href="<?php echo base_url(); ?>view_market_places"><span class="post_link views">View MarketPlaces</span></a>
+            <a href="<?php echo base_url(); ?>view_expire_market_places"><span class="post_link views">View Expired MarketPlaces</span></a>
             <a href="<?php echo base_url(); ?>push_form"><span class="post_link push">Push Notification</span></a>
         </div>    
     </div>

@@ -15,13 +15,9 @@
 |
 */
 //local
-//$config['base_url']	= 'http://localhost/soghan/';
-//$config['base_url']	= 'http://localhost/soghandev/';
-//$config['base_url']	= 'http://soghan.ae/test/';
-$config['base_url']	= 'http://localhost/Dropbox/soghandev/';
+$config['base_url']	= 'http://localhost/Dropbox/web/soghandev/';
 
 //live
-//$config['base_url']	= 'http://synergistics.ae/soghan/';
 //$config['base_url']	= 'http://synergistics.ae/soghan/';
 
 $config['success']	= 'Success';

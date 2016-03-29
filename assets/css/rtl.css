@@ -151,6 +151,6 @@
     .rtl .ad-details .location {
         padding: 0 30px 0 0;
     }
-    .rtl .single-video .video-details .title, {padding: 0 40px 0 0;}
+    .rtl .single-video .video-details .title {padding: 0 40px 0 0;}
     .rtl .ad-details .title-area .title {padding: 0;}
 }

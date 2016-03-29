@@ -12,14 +12,14 @@
                 <div class="input-wrap">
                     <label for="newpassword">كلمة السر الجديدة</label>
                     <div class="input-inner">
-                        <input type="password" id="password" name="password" required minlength="8">
+                        <input type="password" id="password" name="password" required minlength="3">
                         <span class="icon newpass">icon</span>
                     </div>
                 </div>
                 <div class="input-wrap">
-                    <label for="cpass">تأكيد كلمة المرور</label>
+                    <label for="cpass">تأكيد كلمة السر</label>
                     <div class="input-inner">
-                        <input type="password" id="cpass" name="cpass" required>
+                        <input type="password" id="cpass" name="cpass" required minlength="3">
                         <span class="icon cnewpass">icon</span>
                     </div>
                 </div>

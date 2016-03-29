@@ -22,7 +22,7 @@ class Admin_model extends CI_Model {
     function updateRecord($table, $where_field, $where_value, $data)
     {
         $this->db->where($where_field, $where_value);
-        $this->db->update($table, $data);   
+        $this->db->update($table, $data);
                 
         return $this->db->affected_rows(); 
     }
@@ -96,20 +96,43 @@ class Admin_model extends CI_Model {
         return $this->db->affected_rows(); 
     }
     
-    function getPosts($start, $end){
+    function getPosts($expire='', $start='', $end=''){
 
-        $limit = (!empty($end)) ? "limit $start, $end" : "";
+        $expire = (!empty($expire)) ? "and date(posts.created_date) < DATE_SUB(NOW(), INTERVAL 120 DAY)" : "";
+        $limit  = (!empty($end)) ? "limit $start, $end" : "";
 
-        $query = $this->db->query("select posts.*, pictures.picture
+        $query = $this->db->query("select posts.*, DATEDIFF(CURDATE(), posts.created_date) as diff, pictures.picture, 
+                    users.first_name, users.middle_name, users.mobile, users.email
                     from posts
                     left join pictures on pictures.post_id = posts.post_id
+                    inner join users on users.user_id = posts.user_id
+                    where posts.status = 1                    
+                    $expire
                     group by post_id
-                    order by post_id desc
+                    ORDER BY diff ASC
                     $limit
                 ");
 
         return $query->result_array();        
     }     
+    
+    function getUserPosts($user_id, $start='', $end=''){
+
+        $limit  = (!empty($end)) ? "limit $start, $end" : "";
+
+        $query = $this->db->query("select posts.*, DATEDIFF(CURDATE(), posts.created_date) as diff, pictures.picture, 
+                    users.first_name, users.middle_name, users.mobile, users.email
+                    from posts
+                    left join pictures on pictures.post_id = posts.post_id
+                    inner join users on users.user_id = posts.user_id
+                    where posts.user_id = $user_id
+                    group by post_id
+                    ORDER BY status, created_date ASC
+                    $limit
+                ");
+        
+        return $query->result_array();        
+    } 
     
     function getAllEvents($start='', $end='')
     {
@@ -214,6 +237,18 @@ class Admin_model extends CI_Model {
         $query = $this->db->get('ads');
         return $query->result_array();      
     }
+    
+    function getAllUsers($start='', $end=''){
+
+        $limit  = (!empty($end)) ? "limit $start, $end" : "";
+
+        $query = $this->db->query("select users.*, count(posts.post_id) as total
+                            from users 
+                            left join posts on posts.user_id = users.user_id
+                            where users.status != 2 
+                            group by user_id order by user_id DESC $limit");
+        return $query->result_array();        
+    } 
 
     
     

@@ -55,7 +55,7 @@ class Soghan_model extends CI_Model {
     function updateRecord($table, $where_field, $where_value, $data)
     {
         $this->db->where($where_field, $where_value);
-        $this->db->update($table, $data);        
+        $this->db->update($table, $data);
         return $this->db->affected_rows(); 
     }
     
@@ -179,6 +179,7 @@ class Soghan_model extends CI_Model {
         $query = $this->db->query("select posts.*, pictures.picture
                     from posts
                     left join pictures on pictures.post_id = posts.post_id
+                    where status = 1
                     group by post_id
                     order by post_id desc
                     $limit
@@ -218,6 +219,44 @@ class Soghan_model extends CI_Model {
         return $this->db->affected_rows();
     }
     
+    function deletePortfolio($user_id){
+        
+        $this->db->select('picture, user_id');
+        $this->db->join('pictures', 'pictures.post_id = posts.post_id', 'left');
+//        $this->db->join('users', 'users.user_id = posts.user_id', 'inner');
+        $this->db->where('user_id', $user_id);
+        $this->db->where('status', 0);
+        $query = $this->db->get('posts');        
+        $pictures = $query->result_array();
+                
+        foreach($pictures as $pic){
+            $path = str_replace(base_url(), '', $pic['picture']);
+            unlink($path);
+        }
+                
+        $this->db->query("delete posts, pictures, camel_videos from posts
+                      left join pictures on posts.post_id = pictures.post_id
+                      left join camel_videos on camel_videos.post_id = posts.post_id
+                      where posts.user_id = $user_id and status = 0
+                    ");
+        
+        unlink("assets/portfolio_$user_id.zip");
+        
+//        die($this->db->last_query());
+        
+        return $this->db->affected_rows();
+    }
+    
+    function getAllPortfolioPictures($user_id){
+        $query = $this->db->query("select picture
+                      from pictures
+                      inner join posts on posts.post_id = pictures.post_id
+                      where posts.user_id = $user_id and status = 0
+                    ");
+                
+        return $query->result_array();
+    }
+    
     function getVendorsList($id, $limit='', $start='')
     {
         $this->db->select('vendor_detail_id, contact_name, company_name, phone, mobile, email, description, latitude, longitude, city, area, country, image, vendor_type');
@@ -239,18 +278,19 @@ class Soghan_model extends CI_Model {
     
     //---------------- Mobile Functions ----------------\\
     
-    function getAllPosts()
+    function getAllPosts($status='')
     {
         // $query = $this->db->query('select posts.*
                 // from posts
                 // order by post_id desc
             // ');
                  
-        $query = $this->db->query('select posts.*, users.mobile, users.email
+        $query = $this->db->query("select posts.*, users.mobile, users.email
                     from posts
                     inner join users on users.user_id = posts.user_id
+                    where posts.status = 1
                     order by post_id desc
-                ');
+                ");
         
 //        $query = $this->db->query('select posts.*, types.gender, sub_categories.sub_cat_name, categories.cat_name, pictures.picture
 //                    from posts
@@ -262,8 +302,33 @@ class Soghan_model extends CI_Model {
 //                    left join pictures on pictures.post_id = posts.post_id
 //                    order by post_id desc
 //                ');
-        
+                
         return $query->result_array();
+    }
+    
+    function getPortfolio($user_email)
+    {                 
+        $query = $this->db->query("select posts.*, users.mobile, users.email
+                    from posts
+                    inner join users on users.user_id = posts.user_id
+                    where users.email = '$user_email' and posts.status = 0
+                    order by post_id desc
+                ");
+        
+//        die($this->db->last_query());
+                
+        return $query->result_array();
+    }
+    
+    
+    function getMarketPalce($camel_id)
+    {                 
+        $query = $this->db->query("select post_id
+                    from posts
+                    where camel_id = '$camel_id' and status = 1
+                ");
+                                
+        return $query->row();
     }
 
     function getCamelPics($post_id){
@@ -371,6 +436,15 @@ class Soghan_model extends CI_Model {
         $this->db->order_by('arabic_sub_cat_name', 'ASC');
         $query = $this->db->get('sub_categories');
         return $query->result_array(); 
+    }
+    
+    function getLastPictureId(){
+        
+        $this->db->select('picture_id');
+        $this->db->order_by('picture_id', 'DESC');
+        $query = $this->db->get('pictures');
+        return $query->row();
+                
     }
         
 }

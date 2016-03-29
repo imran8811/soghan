@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="keywords" content="">
         <meta name="author" content="">
-        <title><?php echo $title; ?></title>
+        <title><?php $title; ?>Soghan.ae</title>
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/images/favicon-16x16.png">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jcarousel.css" media="screen">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/jcarousel2.css" media="screen">
@@ -23,9 +23,9 @@
                 <div class="header-top">
                     <div class="wrap-left">
                         <a href="http://soghan.ae" class="switch-lang">العربية</a>
-                        <a href="#" class="playstore-link"></a></li>
+                        <a href="#" class="playstore-link"><img src="<?php echo base_url(); ?>assets/images/playstore.png"></a>
                     </div>
-                    <a href="<?php echo base_url(); ?>" class="logo">Logo</a>
+                    <a href="<?php echo base_url(); ?>" class="logo"><img src="<?php echo base_url(); ?>assets/images/logo.png"></a>
                     <div class="wrap-right">
                         <?php if($this->session->userdata('user_id') == FALSE){ ?>
                             <div class="login-area">
@@ -44,7 +44,7 @@
                                 </ul>
                             </div>
                         <?php } ?>
-                        <a href="#" class="appstore-link"></a>
+                        <a href="#" class="appstore-link"><img src="<?php echo base_url(); ?>assets/images/appstore.png"></a>
                     </div>
                 </div>
                 <nav class="main-menu open-close">

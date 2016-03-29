@@ -20,10 +20,10 @@
             <header id="header">
                 <div class="header-top">
                     <div class="wrap-left">
-                        <a href="http://soghan.ae/en" class="switch-lang">English</a>
-                        <a href="#" class="playstore-link"></a></li>
+                        <a href="<?php echo base_url(); ?>en" class="switch-lang">English</a>
+                        <a href="#" class="playstore-link"><img src="<?php echo base_url(); ?>assets/images/playstore.png"></a>
                     </div>
-                    <a href="<?php echo base_url(); ?>" class="logo">Logo</a>
+                    <a href="<?php echo base_url(); ?>" class="logo"><img src="<?php echo base_url(); ?>assets/images/logo.png"></a>
                     <div class="wrap-right">
                         <?php if($this->session->userdata('user_id') == FALSE){ ?>
                             <div class="login-area">
@@ -42,7 +42,7 @@
                                 </ul>
                             </div>
                         <?php } ?>
-                        <a href="#" class="appstore-link"></a>
+                        <a href="#" class="appstore-link"><img src="<?php echo base_url(); ?>assets/images/appstore.png"></a>
                     </div>
                 </div>
                 <nav class="main-menu open-close">

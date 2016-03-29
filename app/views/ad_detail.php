@@ -17,7 +17,13 @@
                     <div class="carousel carousel-stage">
                         <ul>
                             <?php foreach($detail as $pic){ ?>
-                                <li><img src="<?php echo $pic['picture']; ?>" alt="slider image"></li>
+                                <li>
+                                <?php if($pic['picture']){ ?>
+                                    <img src="<?php echo $pic['picture']; ?>" alt="slider image">
+                                <?php } else { ?>
+                                    <img src="<?php echo base_url(); ?>assets/images/placeholder.jpg" alt="slider image">
+                                 <?php } ?>
+                                </li>
                             <?php } ?>
                         </ul>
                     </div>
@@ -30,7 +36,13 @@
                     <div class="carousel carousel-navigation">
                         <ul>
                             <?php foreach($detail as $pic){ ?>
-                                <li><img src="<?php echo $pic['picture']; ?>" width="115" alt="slider image"></li>
+                                <li>
+                                    <?php if($pic['picture']){ ?>
+                                    <img src="<?php echo $pic['picture']; ?>" width="115" alt="slider image">
+                                    <?php } else { ?>
+                                        <img src="<?php echo base_url(); ?>assets/images/placeholder.jpg" width="115"  alt="slider image">
+                                    <?php } ?>
+                                </li>
                             <?php } ?>
                         </ul>
                     </div>
@@ -85,14 +97,14 @@
                         <span>مالك : <?php echo ucfirst($detail[0]['family_name']); ?></span>
                     </div>
                     <div class="contact-numbers">
-                        <span>الهاتف المتحرك: <?php if($this->session->userdata('user_id')==TRUE){ echo $detail[0]['mobile']; } ?></span>
-                        <span>لبريد الالكتروني: <?php if($this->session->userdata('user_id')==TRUE){ echo $detail[0]['email']; } ?></span>
-                        <span>المدينة: <?php if($this->session->userdata('user_id')==TRUE){ echo $detail[0]['city_name']; } ?></span>
-                        <?php if($this->session->userdata('user_id')==FALSE){ ?>
-                        <div class="mask">
-                            <p>الرجاء <a href="<?php echo base_url().'login/?status='.$ad_id; ?>">الدخول</a> أو <a href="<?php echo base_url().'register'; ?>">التسجيل</a> لرؤية تفاصيل الاتصال </p>
-                        </div>
-                        <?php } ?>
+                        <span>الهاتف المتحرك: <?php echo $detail[0]['mobile']; ?></span>
+                        <span>لبريد الالكتروني: <?php echo $detail[0]['email']; ?></span>
+                        <!--<span>المدينة: <?php //echo $detail[0]['city_name']; ?></span>-->
+                        <?php //if($this->session->userdata('user_id')==FALSE){ ?>
+<!--                        <div class="mask">
+                            <p>الرجاء <a href="<?php //echo base_url().'login/?status='.$ad_id; ?>">الدخول</a> أو <a href="<?php //echo base_url().'register'; ?>">التسجيل</a> لرؤية تفاصيل الاتصال </p>
+                        </div>-->
+                        <?php //} ?>
                     </div>
                 </div>
             </div>
